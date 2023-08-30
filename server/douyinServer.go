@@ -9,7 +9,7 @@ import (
 func StartServer() {
 	r := gin.Default()
 	r.GET("/download", downloadVideo)
-	r.Run(":8080")
+	r.Run(":"+os.Getenv("LEANCLOUD_APP_PORT"))
 }
 
 func downloadVideo(c *gin.Context) {
