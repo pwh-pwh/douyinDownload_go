@@ -5,13 +5,13 @@ import (
 	"github.com/pwh-pwh/douyinDownload_go/client"
 	"net/http"
 	"os"
-	"fmt"
+	"log"
 )
 
 func StartServer() {
 	r := gin.Default()
 	r.GET("/download", downloadVideo)
-	fmt.Println("app port:",os.Getenv("LEANCLOUD_APP_PORT"))
+	log.Println("app port:",os.Getenv("LEANCLOUD_APP_PORT"))
 	r.Run("0.0.0.0:"+os.Getenv("LEANCLOUD_APP_PORT"))
 }
 
