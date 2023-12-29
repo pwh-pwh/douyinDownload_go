@@ -6,7 +6,7 @@ import (
 )
 
 func TestGetBody(t *testing.T) {
-	body, err := GetBody("https://v.douyin.com/JyCk5gy/")
+	body, err, _ := GetBody("https://v.douyin.com/JyCk5gy/")
 	if err != nil {
 		fmt.Println(err)
 	}

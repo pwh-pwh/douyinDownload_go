@@ -1,10 +1,9 @@
-module github.com.pwh-pwh.douyinDownload_go
+module github.com/pwh-pwh/douyinDownload_go
 
 go 1.20
 
 require (
 	github.com/gin-gonic/gin v1.9.1
-	github.com/pwh-pwh/douyinDownload_go v0.0.1
 	github.com/tidwall/gjson v1.16.0
 )
 

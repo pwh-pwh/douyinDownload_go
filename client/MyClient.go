@@ -1,6 +1,7 @@
 package client
 
 import (
+	"crypto/tls"
 	"fmt"
 	"github.com/tidwall/gjson"
 	"io"
@@ -13,13 +14,19 @@ import (
 
 const (
 	pattern = "video/(\\d+)?"
-	cVUrl   = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=%s"
+	cVUrl   = "https://m.douyin.com/web/api/v2/aweme/iteminfo/?item_ids=%s&a_bogus="
 )
 
 var esc_re, _ = regexp.Compile(pattern)
 
 func doGet(url string) (*http.Response, error) {
-	client := &http.Client{}
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true,
+			},
+		},
+	}
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		fmt.Println(err)
@@ -66,8 +73,9 @@ func GetVideoDlUrl(id string) (s string, err error) {
 	if err != nil {
 		return
 	}
+	//fmt.Println("===\n")
 	//fmt.Println(builder.String())
-	s = gjson.Get(builder.String(), "item_list.0.video.play_addr.url_list.0").String()
+	s = gjson.Get(builder.String(), "item_list.0.video.play_addr.uri").String()
 	return
 }
 
@@ -98,7 +106,9 @@ func GetBody(url string) (io.ReadCloser, error, int64) {
 	if err != nil {
 		return nil, err, 0
 	}
-	resp, err := doGet(dlUrl)
+	resultUrl := "https://www.douyin.com/aweme/v1/play/?video_id=" + dlUrl
+	fmt.Println("resultUrl:", resultUrl)
+	resp, err := doGet(resultUrl)
 	if err != nil {
 		return nil, err, 0
 	}
