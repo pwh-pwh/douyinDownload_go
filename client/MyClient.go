@@ -106,7 +106,7 @@ func GetBody(url string) (io.ReadCloser, error, int64) {
 	if err != nil {
 		return nil, err, 0
 	}
-	resultUrl := "https://www.douyin.com/aweme/v1/play/?video_id=" + dlUrl
+	resultUrl := fmt.Sprintf("https://www.iesdouyin.com/aweme/v1/play/?video_id=%s&ratio=1080p&line=0", dlUrl)
 	fmt.Println("resultUrl:", resultUrl)
 	resp, err := doGet(resultUrl)
 	if err != nil {
